@@ -1,10 +1,13 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect 
+from django.http import HttpResponseRedirect
 from .models import Blog , Category
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from blogy.forms import CategoryForm ,AddBlogg
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User 
+from .models import Comment
 
 # Create your views here.
 
@@ -23,8 +26,19 @@ def post_by_category(request , category_id):
 
 def blogs(request , slug):
     single_blog = get_object_or_404(Blog , slug=slug , status="published")
+    if request.method == "POST":
+        comment = Comment()
+        comment.user = request.user
+        comment.blog = single_blog
+        comment.comment = request.POST['comment']
+        comment.save()
+        return HttpResponseRedirect(request.path_info)
+    comments = Comment.objects.filter(blog=single_blog)
+    comment_count = Comment.objects.filter(blog=single_blog).count()
     context = {
         'single_blog':single_blog,
+        'comments':comments,
+        'count':comment_count
     }
     return render(request , "blogs.html" , context)
 
@@ -145,3 +159,4 @@ def delete_post(request  , pk ):
     post = get_object_or_404(Blog, pk=pk)
     post.delete()
     return redirect('posts')
+
