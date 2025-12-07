@@ -68,3 +68,26 @@ def add(request):
         'form':form
     }
     return render(request , "dashboard/add_category.html" , context)
+
+
+def edit(request , pk):
+    category = get_object_or_404(Category , pk=pk)
+    if request.method == "POST":
+        form = CategoryForm(request.POST , instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    form = CategoryForm(instance=category)
+    context ={
+        'form':form,
+        'category':category,
+    }
+    return render(request , "dashboard/edit_cat.html", context)
+
+
+
+
+def delete(request , pk):
+    categ = get_object_or_404( Category, pk=pk)
+    categ.delete()
+    return render(request , "dashboard/categories.html")

@@ -28,8 +28,8 @@
       <td>{{cat.updated_at}}</td>
       <td>{{cat.action}}</td>
       <td>
-        <a href="" ><i class="fa fa-edit text-success"></i></a>
-        <a href="" ><i class="fa fa-trash text-danger"></i></a>
+        <a href="{% url 'edit' cat.id %}" ><i class="fa fa-edit text-success"></i></a>
+        <a href="{% url 'delete' cat.id %}" ><i class="fa fa-trash text-danger"></i></a>
         </td>
     </tr>
     {% endfor %}

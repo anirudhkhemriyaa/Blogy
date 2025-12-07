@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.dashboard , name="dashboard"),
     path('categories/', views.categories , name="categories"),
     path('categories/add', views.add , name="add"),
-    # path('categories/delete', views.delete , name="delete"),
+    path('categories/edit/<int:pk>/', views.edit , name="edit"),
+    path('categories/delete/<int:pk>/', views.delete , name="delete"),
 
 ]
