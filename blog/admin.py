@@ -3,7 +3,7 @@ from .models import Category,Blog , about , SocialLink
 # Register your models here.
 
 class BlogAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug':('title',)}
+    prepopulated_fields = {'slug':('title',)} # slug is title
 
     list_display = ('title','category' , 'author' , 'is_featured')
 
