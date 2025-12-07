@@ -2,6 +2,9 @@ from django.shortcuts import render , redirect
 from .models import Blog , Category
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from blogy.forms import CategoryForm
+
 # Create your views here.
 
 def post_by_category(request , category_id):
@@ -34,3 +37,34 @@ def search(request):
         'keyword':keyword,
     }
     return render(request , "search.html" , context)
+
+
+@login_required(login_url='login')
+def dashboard(request):
+    category_count = Category.objects.all().count()
+    blogs_count = Blog.objects.all().count()
+    context ={
+        'category_count':category_count,
+        'blog_count':blogs_count
+
+    }
+    return render(request , "dashboard/dashboard.html" , context)
+
+
+
+def categories(request):
+    return render(request , 'dashboard/categories.html')
+
+
+
+def add(request):
+    if request.method=="POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categories')
+    form = CategoryForm()
+    context = {
+        'form':form
+    }
+    return render(request , "dashboard/add_category.html" , context)
