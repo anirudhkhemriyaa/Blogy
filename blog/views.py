@@ -15,7 +15,7 @@ from django.db.models import F
 # Create your views here.
 
 def post_by_category(request , category_id):
-    posts = Blog.objects.filter(category = category_id  , status="published")
+    posts = Blog.objects.filter(category = category_id  , status="published").order_by("-created_at")
 
     paginator = Paginator(posts, 5) 
 
