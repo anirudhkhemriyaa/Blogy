@@ -8,18 +8,27 @@ from blogy.forms import CategoryForm ,AddBlogg
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
 from .models import Comment
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 
 def post_by_category(request , category_id):
     posts = Blog.objects.filter(category = category_id  , status="published")
+
+    paginator = Paginator(posts, 5) 
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     try:
         category = Category.objects.get(id=category_id)
     except:
         return redirect('home')
     context = {
         'posts':posts,
-        'category':category
+        'category':category,
+        "page_obj": page_obj,
+
     }
     return render(request , "post_by_category.html" , context)
 
