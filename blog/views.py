@@ -63,7 +63,7 @@ def search(request):
     return render(request , "search.html" , context)
 
 
-@login_required(login_url='login')
+@login_required
 def dashboard(request):
     category_count = Category.objects.all().count()
     blogs_count = Blog.objects.filter(author = request.user).count()
