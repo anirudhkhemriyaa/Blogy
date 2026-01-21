@@ -166,6 +166,11 @@ USE_I18N = True
 USE_TZ = True
 
 
+from dj_static import Cling
+
+WSGI_APPLICATION = "blogy.wsgi.application"
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
