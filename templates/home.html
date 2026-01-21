@@ -78,52 +78,44 @@
 
   {# RECENT ARTICLES + SIDEBAR #}
   <section class="mb-5">
-    <h3 class="text-uppercase text-warning mb-4" style="letter-spacing: 2px;">
-      Recent Articles
-    </h3>
+  <h3 class="text-uppercase text-warning mb-4" style="letter-spacing: 2px;">
+    Recent Articles
+  </h3>
 
-    <main role="main" class="container p-0">
-      <div class="row">
+  <main role="main" class="container p-0">
+    <div class="row">
 
-        {# MAIN BLOG LIST #}
-        <div class="col-md-8 blog-main mb-4">
-          {% for post in posts %}
-            <article class="card border-0 mb-4 shadow-sm">
-              <div class="card-body">
-                <h3 class="h4">
-                  <a href="{% url 'blogs' post.slug %}" class="text-dark font-weight-bold">
-                    {{ post.title }}
-                  </a>
-                </h3>
-                <small class="mb-2 d-block text-muted">
-                  {{ post.created_at|timesince }} ago &nbsp;|&nbsp; {{ post.author }}
-                </small>
-                <p class="card-text mb-3">
-                  {{ post.short_description|truncatewords:20 }}
-                </p>
-                <a href="{% url 'blogs' post.slug %}" class="small text-warning font-weight-bold">
-                  Continue reading →
+      <!-- MAIN BLOG LIST -->
+      <div class="col-md-8 blog-main mb-4">
+
+        {% for post in page_obj %}
+          <article class="card border-0 mb-4 shadow-sm">
+            <div class="card-body">
+              <h3 class="h4">
+                <a href="{% url 'blogs' post.slug %}" class="text-dark font-weight-bold">
+                  {{ post.title }}
                 </a>
-              </div>
-            </article>
-          {% empty %}
-            <p class="text-muted">No posts found.</p>
-          {% endfor %}
-        </div>
-        <!-- /.blog-main -->
+              </h3>
 
-        {# RIGHT SIDEBAR #}
-        <aside class="col-md-4 blog-sidebar">
+              <small class="mb-2 d-block text-muted">
+                {{ post.created_at|timesince }} ago | {{ post.author }}
+              </small>
 
-          {# ABOUT BOX #}
-          <div class="p-3 mb-3 bg-light rounded shadow-sm">
-            <h4 class="font-italic mb-2">
-              {{ About.about_heading }}
-            </h4>
-            <p class="mb-0 text-muted">
-              {{ About.about_description }}
-            </p>
-          </div>
+              <p class="card-text mb-3">
+                {{ post.short_description|truncatewords:20 }}
+              </p>
+
+              <a href="{% url 'blogs' post.slug %}" class="small text-warning font-weight-bold">
+                Continue reading →
+              </a>
+            </div>
+          </article>
+        {% empty %}
+          <p class="text-muted">No posts found.</p>
+        {% endfor %}
+
+      </div>
+
 
           {# FOLLOW US #}
           {% if social %}
@@ -141,10 +133,57 @@
             </div>
           {% endif %}
 
-        </aside><!-- /.blog-sidebar -->
+        </aside>
 
-      </div><!-- /.row -->
-    </main><!-- /.container -->
+      </div>
+    </main>
   </section>
 
+
+  <nav aria-label="Page navigation" class="mt-4">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">« First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹ Prev</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">« First</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">‹ Prev</span>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next ›</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last »</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next ›</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">Last »</span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+
 {% endblock %}
+

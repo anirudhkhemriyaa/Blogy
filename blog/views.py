@@ -57,7 +57,7 @@ def search(request):
 @login_required(login_url='login')
 def dashboard(request):
     category_count = Category.objects.all().count()
-    blogs_count = Blog.objects.all().count()
+    blogs_count = Blog.objects.filter(author = request.user).count()
     context ={
         'category_count':category_count,
         'blog_count':blogs_count
@@ -67,8 +67,6 @@ def dashboard(request):
 
 
 
-def categories(request):
-    return render(request , 'dashboard/categories.html')
 
 
 
@@ -111,7 +109,7 @@ def delete(request , pk):
 
 
 def posts(request):
-    posts = Blog.objects.all()
+    posts = Blog.objects.filter(author=request.user)
     context = {
         'posts':posts
     }
