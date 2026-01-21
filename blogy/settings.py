@@ -28,6 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+print("ALLOWED_HOSTS from env:", os.getenv("ALLOWED_HOSTS"))
+print("ALLOWED_HOSTS parsed:", ALLOWED_HOSTS)
+
 
 
 
