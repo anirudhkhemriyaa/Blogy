@@ -28,75 +28,81 @@
 
 <div class="container">
 
-   <header class="py-3 mb-3 border-bottom sticky-top bg-surface shadow-soft">
-  <div class="row align-items-center">
+   <header class="py-3 mb-4 sticky-top bg-white shadow-sm">
+  <div class="container">
+    <div class="row align-items-center">
 
-    <div class="col-4">
-      <a class="h4 font-weight-bold mb-0 text-decoration-none"
-         style="color: var(--fg);" href="/">
-        Blogy
-      </a>
-    </div>
+      <!-- Brand -->
+      <div class="col-4">
+        <a class="h4 font-weight-bold mb-0 text-decoration-none text-dark" href="/">
+          Blogy
+        </a>
+      </div>
 
-    <div class="col-4 d-none d-md-block">
-      <form action="{% url 'search' %}" method="GET">
-        <div class="input-group input-group-sm shadow-sm">
-          <input class="form-control border-0"
-                 style="background: var(--card); color: var(--fg);"
-                 type="text" name="keyword" placeholder="Search articles..." />
-          <div class="input-group-append">
-            <button class="btn btn-accent" type="submit">
-              <i class="fa fa-search"></i>
-            </button>
+      <!-- Search -->
+      <div class="col-4 d-none d-md-block">
+        <form action="{% url 'search' %}" method="GET">
+          <div class="input-group input-group-sm shadow-sm rounded">
+            <input
+              class="form-control border-0 rounded-left"
+              type="text"
+              name="keyword"
+              placeholder="Search articles..."
+            />
+            <div class="input-group-append">
+              <button class="btn btn-warning rounded-right" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
 
-    <div class="col-4 d-flex justify-content-end align-items-center">
+      <!-- Auth -->
+      <div class="col-4 d-flex justify-content-end align-items-center">
 
-
-      {% if not user.is_authenticated %}
-        <a class="btn btn-sm btn-warning d-flex align-items-center shadow-sm px-3 rounded-pill"
-            href="{% provider_login_url 'google' %}">
+        {% if not user.is_authenticated %}
+          <a class="btn btn-sm btn-warning d-flex align-items-center shadow-sm px-3 rounded-pill"
+             href="{% provider_login_url 'google' %}">
             <i class="fa fa-google mr-2"></i>
             <span class="font-weight-bold">Continue with Google</span>
-            </a>
-
-      {% else %}
-        <a class="btn btn-sm btn-light d-flex align-items-center rounded-pill px-3 shadow-sm mr-2"
-            href="{% url 'dashboard' %}">
+          </a>
+        {% else %}
+          <a class="btn btn-sm btn-light d-flex align-items-center rounded-pill px-3 shadow-sm mr-2"
+             href="{% url 'dashboard' %}">
             <i class="fa fa-user-circle mr-2"></i>
             <span class="small font-weight-bold">
-                {{ user.email|truncatechars:18 }}
+              {{ user.email|truncatechars:18 }}
             </span>
-        </a>
+          </a>
 
+          <a class="btn btn-sm btn-outline-secondary rounded-pill"
+             href="/accounts/logout/">
+            Logout
+          </a>
+        {% endif %}
+      </div>
 
-        <a class="btn btn-sm btn-outline-secondary"
-           href="/accounts/logout/">
-          Logout
-        </a>
-      {% endif %}
     </div>
-
   </div>
 </header>
 
 
+
     <!-- CATEGORY NAV -->
     <div class="nav-scroller py-2 mb-4">
-        <nav class="nav d-flex justify-content-start flex-wrap bg-white rounded shadow-sm px-3">
-                <a class="p-2 text-muted" href="{% url 'home'  %}">Home</a>
+        <nav class="nav d-flex flex-wrap justify-content-start">
+            <a class="badge badge-light shadow-sm px-3 py-2 mr-4 mb-5  font-weight-bold" href="{% url 'home' %}">Home</a>
             {% for cat in categories %}
-                <a class="p-2 text-muted" href="{% url 'post_by_category' cat.id %}">            
-                    {{ cat.category_name }}
-                </a>
+               <a class="badge badge-light shadow-sm px-3 py-2 mr-4 mb-5 font-weight-bold" style="font-size: 1.1rem;"
+   href="{% url 'post_by_category' cat.id %}">
+  {{ cat.category_name }}
+</a>
 
-            {% empty %}
-                <span class="text-muted small py-2">No categories available.</span>
+
             {% endfor %}
         </nav>
+
     </div>
 
     <!-- MAIN CONTENT -->
