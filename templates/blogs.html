@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load socialaccount %}
+ 
 {% block content %}
 <!-- Page content-->
 <div class="container mt-5">
@@ -20,6 +21,9 @@
                         <a class="badge bg-primary text-decoration-none text-light" href="#!">
                             {{ single_blog.category }}
                         </a>
+                        <small class="text-muted">
+                            <i class="fa fa-eye mr-1"></i> {{ single_blog.view }} views
+                        </small>
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4">
@@ -41,6 +45,7 @@
                             <h4 class="mb-0">Comments</h4>
                             <span class="badge bg-primary text-light ml-2">{{ count }}</span>
                         </div>
+
 
                         {% if comments %}
                             {% for comment in comments %}

@@ -92,7 +92,7 @@
     <!-- CATEGORY NAV -->
     <div class="nav-scroller py-2 mb-4">
         <nav class="nav d-flex flex-wrap justify-content-start">
-            <a class="badge badge-light shadow-sm px-3 py-2 mr-4 mb-5  font-weight-bold" href="{% url 'home' %}">Home</a>
+            <a class="badge badge-light shadow-sm px-3 py-2 mr-4 mb-5  font-weight-bold"  style="font-size: 1.1rem;" href="{% url 'home' %}">Home</a>
             {% for cat in categories %}
                <a class="badge badge-light shadow-sm px-3 py-2 mr-4 mb-5 font-weight-bold" style="font-size: 1.1rem;"
    href="{% url 'post_by_category' cat.id %}">

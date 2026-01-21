@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect 
 from django.http import HttpResponseRedirect
-from .models import Blog , Category
+from .models import Blog , Category 
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
 from .models import Comment
 from django.core.paginator import Paginator
+from django.db.models import F
 
 
 # Create your views here.
@@ -35,6 +36,14 @@ def post_by_category(request , category_id):
 
 def blogs(request , slug):
     single_blog = get_object_or_404(Blog , slug=slug , status="published")
+
+    session_key = f"viewed_{single_blog.id}"
+    if not request.session.get(session_key):
+        Blog.objects.filter(id=single_blog.id).update(view=F('view') + 1)
+        request.session[session_key] = True
+
+    single_blog.refresh_from_db()
+
     if request.method == "POST":
         comment = Comment()
         comment.user = request.user
@@ -47,9 +56,12 @@ def blogs(request , slug):
     context = {
         'single_blog':single_blog,
         'comments':comments,
-        'count':comment_count
+        'count':comment_count,
     }
     return render(request , "blogs.html" , context)
+
+
+
 
 
 # Searching ------ 

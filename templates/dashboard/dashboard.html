@@ -1,36 +1,54 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
 <div class="row">
-    <!-- Left side bar -->
-    {% include "dashboard/side_bar.html" %}
 
-    <!-- Right side bar -->
-     <div class="col-md-9">
-        <div class="row">
-            <div class="col">
-                <div class="card border-default mb-3">
-                    <div class="card-header text-center text-uppercase font-weight-bold">All Categories</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center"> {{category_count}} </h5>
-                    </div>
-                </div>
-            </div>  
+  <!-- SIDEBAR -->
+  {% include "dashboard/side_bar.html" %}
 
-            <div class="col">
-                <div class="card border-default mb-3"> 
-                    <div class="card-header text-center text-uppercase font-weight-bold">All Posts</div>
-                    <div class="card-body text-dark">
-                        <h5 class="card-title text-center"> {{blog_count}} </h5>
-                    </div>
-                </div>
-            </div>
+  <!-- MAIN -->
+  <div class="col-md-9">
+
+    <!-- USER STRIP -->
+    <div class="d-flex align-items-center justify-content-between mb-4 p-3 bg-white shadow-sm rounded">
+      <div class="d-flex align-items-center">
+        <i class="fa fa-user-circle fa-2x text-warning mr-3"></i>
+        <div>
+          <div class="font-weight-bold">{{ user.get_full_name|default:user.email }}</div>
+          <small class="text-muted">Signed in with Google</small>
         </div>
+      </div>
 
-     </div>
+      <a href="/" class="btn btn-sm btn-outline-secondary rounded-pill">
+        View Site
+      </a>
+    </div>
 
+    <!-- STATS -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <div class="card border-0 shadow-sm rounded text-center h-100">
+          <div class="card-body">
+            <i class="fa fa-folder-open fa-2x text-warning mb-2"></i>
+            <h6 class="text-uppercase text-muted">Categories</h6>
+            <h2 class="font-weight-bold mb-0">{{ category_count }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded text-center h-100">
+          <div class="card-body">
+            <i class="fa fa-file-text-o fa-2x text-warning mb-2"></i>
+            <h6 class="text-uppercase text-muted">Posts</h6>
+            <h2 class="font-weight-bold mb-0">{{ blog_count }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 
